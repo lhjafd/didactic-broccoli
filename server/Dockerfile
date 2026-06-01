@@ -16,4 +16,4 @@ RUN npm ci --only=production
 VOLUME ["/usr/share/node/logs"]
 
 EXPOSE 3000
-CMD ["node", "./src/server.js"]
+CMD ["node", "./build/server.js"]
