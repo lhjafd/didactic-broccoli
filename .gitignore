@@ -143,4 +143,6 @@ vite.config.ts.timestamp-*
 .vite/
 
 mysql/data/*
-db.env
+server/run_logs/*
+server/build/*
+*.env
