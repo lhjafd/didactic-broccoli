@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="foodcombo.css">
+</head>
+<body>
+    <header>
+    <h1>음식조합</h1>
+</header>
+
+<a href="foodmain.html" class="back-btn">
+    ← 메인으로
+</a>
+
+<main>
+
+    <div class="add-combo">
+        <button onclick="toggleForm()">+ 조합 등록</button>
+    </div>
+
+    <div id="comboForm" class="combo-form">
+        <input type="text" placeholder="첫 번째 음식">
+
+        <input type="text" placeholder="두 번째 음식">
+
+        <textarea placeholder="조합 설명"></textarea>
+
+        <button>등록하기</button>
+    </div>
+
+    <div class="combo-card">
+        <h2>🍪 포카칩 + 🥤 피크닉</h2>
+        <p>단짠 조합의 정석</p>
+    </div>
+
+    <div class="combo-card">
+        <h2>🍟 스윙칩 + 🥤 콜라</h2>
+        <p>무난한 국룰 조합</p>
+    </div>
+
+</main>
+
+<footer>
+    <h3>소마고 매슐랭</h3>
+
+    <p>음식 리뷰 및 랭킹 서비스</p>
+
+    <p>제작 : 이홍인 · 김건호</p>
+
+    <p>© 2026 SOMAGO Michelin</p>
+</footer>
+
+<script src="foodcombo.js"></script>
+</body>
+</html>
