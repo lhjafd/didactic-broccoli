@@ -10,8 +10,11 @@
 
 <body>
 
-<h1>매슐랭 음식리뷰</h1>
-
+<header>
+    <h1>매슐랭 음식리뷰</h1>
+    <a href="foodmain.html" class="back-btn">← 메인으로</a>
+</header>
+<main>
 <div class="category">
 
     <div class="button" onclick="showCategory('frozen')">냉동</div>
@@ -23,113 +26,19 @@
 <div id="foodList"></div>
 <div id="foodDetail"></div>
 
-<script>
+</main>
+<footer>
+    <h3>소마고 매슐랭</h3>
 
-const foodData = {
+    <p>음식 리뷰 및 랭킹 서비스</p>
 
-    snack: [
+    <p>제작 : 이홍인 · 김건호</p>
 
-        {
-            name: "포카칩 어니언맛",
-            price: "1700원",
-            rating: 5,
-            review: "엄청 맛있고 중독성 있다"
-        },
+    <p>© 2026 SOMAGO Michelin</p>
+</footer>
 
-        {
-            name: "스윙칩",
-            price: "1800원",
-            rating: 4,
-            review: "양념 시즈닝이 인상 깊은 과자"
-        },
+<script src="foodreview.js"></script>
 
-        {
-            name: "오사쯔",
-            price: "1300원",
-            rating: 4,
-            review: "달달하고 맛있는 고구마 과자"
-        },
-
-        {
-            name: "홈런볼",
-            price: "1600원",
-            rating: 4,
-            review: "달콤하고 부드러운 과자"
-        }
-
-    ],
-
-    frozen: [
-
-        {
-            name: "갈비만두",
-            price: "2000원",
-            rating: 5,
-            review: "육즙이 가득한 맛있는 만두"
-        }
-
-    ],
-
-    drink: [
-
-        {
-            name: "피크닉",
-            price: "1000원",
-            rating: 4,
-            review: "무난무난하고 맛있다"
-        }
-
-    ]
-
-};
-
-function showCategory(category){
-
-    const list = document.getElementById("foodList");
-    const detail = document.getElementById("foodDetail");
-
-    list.innerHTML = "<h2>음식 목록</h2>";
-    detail.innerHTML = "";
-
-    foodData[category].forEach(food => {
-
-        list.innerHTML += `
-        <div class="food-item" onclick="showFood('${category}','${food.name}')">
-            ${food.name}
-        </div>
-        `;
-
-    });
-
-}
-
-function showFood(category, foodName){
-
-    const food = foodData[category].find(f => f.name === foodName);
-
-    const stars = "★".repeat(food.rating) + "☆".repeat(5 - food.rating);
-
-    document.getElementById("foodDetail").innerHTML = `
-
-    <div class="detail">
-
-        <h2>${food.name}</h2>
-
-        <p><b>가격</b> : ${food.price}</p>
-
-        <p><b>평점</b> : <span class="star">${stars}</span></p>
-
-        <p><b>평가</b></p>
-
-        <p>${food.review}</p>
-
-    </div>
-
-    `;
-
-}
-
-</script>
 
 </body>
 </html>
