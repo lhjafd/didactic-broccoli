@@ -8,12 +8,17 @@ RUN npm ci
 
 COPY ./server/src ./src
 COPY ./server/tsconfig.json ./
+COPY ./server/prisma.config.ts ./
+COPY ./server/prisma ./prisma
 
 RUN npx tsc
 
 RUN npm ci --only=production
 
+RUN npx prisma generate
+
 VOLUME ["/usr/share/node/logs"]
 
 EXPOSE 3000
-CMD ["node", "./build/server.js"]
+
+CMD ["sh", "-c", "npx prisma migrate deploy && node ./build/server.js"]

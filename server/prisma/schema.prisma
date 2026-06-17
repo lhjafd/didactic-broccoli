@@ -1,0 +1,223 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id         String    @id @db.Char(20)
+  password   String    @db.VarChar(255)
+  created_at DateTime
+  removed_at DateTime?
+
+  usernames            Username[]
+  nicknames            Nickname[]
+  foods                Food[]
+  combinations         Combination[]
+  tags                 Tag[]
+  comments_food        CommentFood[]
+  comments_combination CommentCombination[]
+
+  @@map("users")
+}
+
+model Username {
+  userId     String    @db.Char(20)
+  username   String    @db.VarChar(80)
+  created_at DateTime
+  removed_at DateTime?
+  version    Int       @default(1)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([userId, version])
+  @@map("usernames")
+}
+
+model Nickname {
+  userId     String    @db.Char(20)
+  nickname   String    @db.VarChar(255)
+  created_at DateTime
+  removed_at DateTime?
+  version    Int       @default(1)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([userId, version])
+  @@map("nicknames")
+}
+
+model Food {
+  id         String    @id @db.Char(15)
+  creator    String    @db.Char(20)
+  created_at DateTime
+  removed_at DateTime?
+
+  user              User              @relation(fields: [creator], references: [id])
+  food_infos        FoodInfo[]
+  combination_foods CombinationFood[]
+  food_tags         FoodTag[]
+  comments          CommentFood[]
+
+  @@map("foods")
+}
+
+model FoodInfo {
+  foodId      String    @db.Char(15)
+  name        String    @db.VarChar(255)
+  description String    @db.Text
+  price       Int
+  created_at  DateTime
+  removed_at  DateTime?
+  version     Int       @default(1)
+
+  food Food @relation(fields: [foodId], references: [id])
+
+  @@id([foodId, version])
+  @@map("food_infos")
+}
+
+model Combination {
+  id         String    @id @db.Char(25)
+  creator    String    @db.Char(20)
+  created_at DateTime
+  removed_at DateTime?
+
+  user              User                 @relation(fields: [creator], references: [id])
+  combination_infos CombinationInfo[]
+  combination_foods CombinationFood[]
+  combination_tags  CombinationTag[]
+  comments          CommentCombination[]
+
+  @@map("combinations")
+}
+
+model CombinationInfo {
+  combinationId String    @db.Char(25)
+  name          String    @db.VarChar(255)
+  description   String    @db.Text
+  created_at    DateTime
+  removed_at    DateTime?
+  version       Int       @default(1)
+
+  combination Combination @relation(fields: [combinationId], references: [id])
+
+  @@id([combinationId, version])
+  @@map("combination_infos")
+}
+
+model CombinationFood {
+  combinationId String    @db.Char(25)
+  foodId        String    @db.Char(15)
+  updated_at    DateTime
+  added_at      DateTime
+  removed_at    DateTime?
+  version       Int       @default(1)
+
+  combination Combination @relation(fields: [combinationId], references: [id])
+  food        Food        @relation(fields: [foodId], references: [id])
+
+  @@id([combinationId, foodId, version])
+  @@map("combination_foods")
+}
+
+model Tag {
+  id         String    @id @db.Char(30)
+  creator    String    @db.Char(20)
+  created_at DateTime
+  removed_at DateTime?
+
+  user             User             @relation(fields: [creator], references: [id])
+  tag_infos        TagInfo[]
+  food_tags        FoodTag[]
+  combination_tags CombinationTag[]
+
+  @@map("tags")
+}
+
+model TagInfo {
+  tagId       String    @db.Char(30)
+  name        String    @db.VarChar(255)
+  description String    @db.Text
+  created_at  DateTime
+  removed_at  DateTime?
+  version     Int       @default(1)
+
+  tag Tag @relation(fields: [tagId], references: [id])
+
+  @@id([tagId, version])
+  @@map("tag_infos")
+}
+
+model FoodTag {
+  foodId     String    @db.Char(15)
+  tagId      String    @db.Char(30)
+  updated_at DateTime
+  added_at   DateTime
+  removed_at DateTime?
+  version    Int       @default(1)
+
+  food Food @relation(fields: [foodId], references: [id])
+  tag  Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([foodId, tagId, version])
+  @@map("food_tags")
+}
+
+model CombinationTag {
+  combinationId String    @db.Char(25)
+  tagId         String    @db.Char(30)
+  updated_at    DateTime
+  added_at      DateTime
+  removed_at    DateTime?
+  version       Int       @default(1)
+
+  combination Combination @relation(fields: [combinationId], references: [id])
+  tag         Tag         @relation(fields: [tagId], references: [id])
+
+  @@id([combinationId, tagId, version])
+  @@map("combination_tags")
+}
+
+model CommentFood {
+  id         String    @id @db.Char(40)
+  userId     String    @db.Char(20)
+  foodId     String    @db.Char(15)
+  rating     Decimal   @db.Decimal(5, 3)
+  reason     String    @db.Text
+  updated_at DateTime
+  created_at DateTime
+  removed_at DateTime?
+  version    Int       @default(1)
+
+  user User @relation(fields: [userId], references: [id])
+  food Food @relation(fields: [foodId], references: [id])
+
+  @@map("comments_food")
+}
+
+model CommentCombination {
+  id            String    @id @db.Char(40)
+  userId        String    @db.Char(20)
+  combinationId String    @db.Char(25)
+  rating        Decimal   @db.Decimal(5, 3)
+  reason        String    @db.Text
+  updated_at    DateTime
+  created_at    DateTime
+  removed_at    DateTime?
+  version       Int       @default(1)
+
+  user        User        @relation(fields: [userId], references: [id])
+  combination Combination @relation(fields: [combinationId], references: [id])
+
+  @@map("comments_combination")
+}
