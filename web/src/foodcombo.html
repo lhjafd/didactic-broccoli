@@ -21,15 +21,46 @@
         <button onclick="toggleForm()">+ 조합 등록</button>
     </div>
 
-    <div id="comboForm" class="combo-form">
-        <input type="text" placeholder="첫 번째 음식">
+<div id="comboModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>🍴 새로운 음식 조합 등록</h2>
+        </div>
+        
+        <div class="modal-body">
+            <div id="foodInputList">
+                <div class="input-group food-input-item">
+                    <label>첫 번째 음식</label>
+                    <div class="input-row">
+                        <input type="text" placeholder="예) 포카칩">
+                    </div>
+                </div>
+                <div class="input-group food-input-item">
+                    <label>두 번째 음식</label>
+                    <div class="input-row">
+                        <input type="text" placeholder="예) 피크닉">
+                        <button type="button" class="remove-food-btn" onclick="removeFoodField(this)">×</button>
+                    </div>
+                </div>
+            </div>
 
-        <input type="text" placeholder="두 번째 음식">
+            <button type="button" class="add-food-field-btn" onclick="addFoodField()">+ 음식 추가</button>
 
-        <textarea placeholder="조합 설명"></textarea>
+            <div class="input-group" style="margin-top: 20px;">
+                <div class="label-row">
+                    <label>조합 설명</label>
+                    <span id="charCount" class="char-count">0 / 200</span>
+                </div>
+                <textarea id="comboDescription" maxlength="200" oninput="updateCharCount()" placeholder="조합에 대해 간단히 설명해주세요..."></textarea>
+            </div>
+        </div>
 
-        <button>등록하기</button>
+        <div class="modal-footer">
+            <button class="submit-btn">조합 등록하기</button>
+            <button class="cancel-btn" onclick="toggleForm()">취소</button>
+        </div>
     </div>
+</div>
 
     <div class="combo-card">
         <h2>🍪 포카칩 + 🥤 피크닉</h2>
