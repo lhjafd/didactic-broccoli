@@ -25,5 +25,5 @@ export async function register(username: string, nickname: string, password: str
         throw new ServiceError("BadRequest", "username already taken");
 
     // TODO: insert db
-    db.prisma.username.
+    // db.prisma.username.
 };
