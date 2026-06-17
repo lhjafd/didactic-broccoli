@@ -1,5 +1,8 @@
 import express, {Request, Response, NextFunction} from "express";
 import v1 from "./routes/index";
+import { configDotenv } from "dotenv";
+
+configDotenv()
 
 const app = express();
 const port = 3000;

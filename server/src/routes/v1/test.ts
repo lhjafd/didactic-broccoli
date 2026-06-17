@@ -1,4 +1,5 @@
 import { Router } from "express";
+import jsonHandler from "../../middleware/jsonhandler";
 
 const test = Router();
 
@@ -6,13 +7,8 @@ test.get("/", (req, res) => {
     res.send("Hello, World! ");
 });
 
-test.post("/jsontest", (req, res) => {
-    if (req.headers["content-type"]?.toLowerCase() !== "application/json") {
-        res.status(400).json({error: "Body is not a vaild json object. "});
-        return;
-    }
-
+test.post("/jsontest", jsonHandler((req, res) => {
     res.json({recived: req.body});
-})
+}));
 
 export default test;
