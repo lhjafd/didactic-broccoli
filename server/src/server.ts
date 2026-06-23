@@ -12,6 +12,8 @@ app.use(express.json({
   limit: '1mb',   // 페이로드 크기 제한 초과 시도 413 에러
 }));
 
+app.set("trust proxy", 1)
+
 app.get('/api/test', (req: Request, res: Response) => {
   res.send('Hello World!')
 })

@@ -19,6 +19,7 @@ model User {
   created_at DateTime
   removed_at DateTime?
 
+  refresh_tokens       RefreshToken[]
   usernames            Username[]
   nicknames            Nickname[]
   foods                Food[]
@@ -28,6 +29,18 @@ model User {
   comments_combination CommentCombination[]
 
   @@map("users")
+}
+
+model RefreshToken {
+  id String @id @db.Char(35)
+  userId String @db.Char(20)
+  token String @db.VarChar(512)
+  login_ip String @db.VarChar(40)
+  expire_at DateTime
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
 }
 
 model Username {

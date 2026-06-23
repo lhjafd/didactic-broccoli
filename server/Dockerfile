@@ -11,11 +11,11 @@ COPY ./server/tsconfig.json ./
 COPY ./server/prisma.config.ts ./
 COPY ./server/prisma ./prisma
 
+RUN npx prisma generate
+
 RUN npx tsc
 
 RUN npm ci --only=production
-
-RUN npx prisma generate
 
 VOLUME ["/usr/share/node/logs"]
 
