@@ -7,12 +7,24 @@ import { safeString } from "../util/safeString";
 import { Prisma } from "../generated/prisma/client";
 
 export async function getUserInfoFromUserId(userId: string) {
-    return await db.user.findFirst({where: {id: userId}});
+    return await db.user.findUnique({where: {id: userId}});
+}
+
+export async function getUsernameFromUserId(userId: string) {
+    return await db.username.findFirst({where: {
+        version: (await db.username.aggregate({_max: { version: true }, where: {userId}}))._max.version ?? 1
+    }});
+}
+
+export async function getNicknameFromUserId(userId: string) {
+    return await db.nickname.findFirst({where: {
+        version: (await db.nickname.aggregate({_max: { version: true }, where: {userId}}))._max.version ?? 1
+    }});
 }
 
 export async function getUserIdFromUsername(username: string): Promise<string | null> {
     // TODO: impl
-    const usernames = await db.username.findMany({where: {username: username}});
+    const usernames = await db.username.findMany({where: {username}});
 
     for (const user of usernames) {
         const userinfo = await getUserInfoFromUserId(user.userId);

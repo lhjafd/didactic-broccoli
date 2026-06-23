@@ -34,7 +34,7 @@ model User {
 model RefreshToken {
   id String @id @db.Char(35)
   userId String @db.Char(20)
-  token String @db.VarChar(512)
+  token String @unique @db.VarChar(512)
   login_ip String @db.VarChar(40)
   expire_at DateTime
 
