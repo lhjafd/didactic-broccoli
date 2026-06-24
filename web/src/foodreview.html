@@ -1,44 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>매슐랭 음식리뷰</title>
-
-<link rel="stylesheet" href="review.css">
-
+    <meta charset="UTF-8">
+    <title>매슐랭 음식리뷰</title>
+    <link rel="stylesheet" href="review.css">
 </head>
-
 <body>
 
 <header>
     <h1>매슐랭 음식리뷰</h1>
     <a href="foodmain.html" class="back-btn">← 메인으로</a>
 </header>
+
 <main>
-<div class="category">
+    <div class="category">
+        <div class="button" onclick="showCategory('000000000000000000000000000000')">일반 과자</div>
+        <div class="button" onclick="showCategory('000000000000000000000000000001')">만두류</div>
+        <div class="button" onclick="showCategory('000000000000000000000000000002')">음료수</div>
+    </div>
 
-    <div class="button" onclick="showCategory('frozen')">냉동</div>
-    <div class="button" onclick="showCategory('snack')">과자</div>
-    <div class="button" onclick="showCategory('drink')">음료수</div>
-
-</div>
-
-<div id="foodList"></div>
-<div id="foodDetail"></div>
-
+    <div id="foodList"></div>
+    <div id="foodDetail"></div>
 </main>
+
 <footer>
     <h3>소마고 매슐랭</h3>
-
     <p>음식 리뷰 및 랭킹 서비스</p>
-
     <p>제작 : 이홍인 · 김건호</p>
-
     <p>© 2026 SOMAGO Michelin</p>
 </footer>
 
 <script src="foodreview.js"></script>
-
-
 </body>
 </html>
