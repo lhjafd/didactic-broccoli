@@ -25,6 +25,51 @@
 
 업데이트 로그로 업데이트된 소식등을 업로드
 
+## api
+
+### auth
+
+POST /api/v1/auth/login
+POST /api/v1/auth/logout
+POST /api/v1/auth/register
+GET    /api/v1/auth/refresh
+
+POST /api/v1/auth/login
+request:
+ body: { username: string, password: string }
+ cookie: { }
+response:
+ body: { success: boolean, error?: { message: string }, result?: { userId: string, accessToken: string } }
+ cookie: { refreshToken?: string HttpOnly Secure }
+ status: 200, 400
+
+POST /api/v1/auth/logout
+request:
+ body: { }
+ cookie: { refreshToken: string }
+response:
+ body: { success: boolean, error?: { message: string } }
+ cookie: { }
+ status: 200, 400, 401
+
+POST /api/v1/auth/register
+request:
+ body: { username: string, nickname: string, password: string }
+ cookie: { }
+response:
+ body: { success: boolean, error?: { message: string }, result?: {userId: string, accessToken: string } }
+ cookie: { refreshToken?: string HttpOnly Secure }
+ status: 201, 400, 500
+
+GET /api/v1/auth/refresh
+request:
+ body: { }
+ cookie: { refreshToken: string }
+response:
+ body: { success: boolean, error?: { message: string }, result?: { accessToken: string } }
+ cookie: { refreshToken: string HttpOnly Secure }
+ status: 201, 400, 401
+
 ## 데이터베이스 스키마
 
 ### 사용자 관련 테이블

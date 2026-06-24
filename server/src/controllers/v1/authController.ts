@@ -33,11 +33,12 @@ async (req: Request, res: Response) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        res.status(201).send({ success: true, userId, accessToken });
+        res.status(201).send({ success: true, result: { userId, accessToken } });
         return;
     } catch (e) {
+        console.warn(e);
         const err = e as ServiceError;
-        res.status(httpStatusCodes[err.reason] || 400).send({success: false, error: {message: err.message}});
+        res.status(httpStatusCodes[err.reason] || 400).send({ success: false, error: { message: err.message } });
         return;
     }
 }));
@@ -64,11 +65,12 @@ async (req: Request, res: Response) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        res.status(200).send({ success: true, userId, accessToken });
+        res.status(200).send({ success: true, result: { userId, accessToken } });
         return;
     } catch (e) {
+        console.warn(e);
         const err = e as ServiceError;
-        res.status(httpStatusCodes[err.reason] || 400).send({success: false, error: {message: err.message}});
+        res.status(httpStatusCodes[err.reason] || 400).send({ success: false, error: { message: err.message } });
         return;
     }
 }));
@@ -76,26 +78,27 @@ async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;
     if (typeof(refreshToken) != "string") {
-        res.status(400).send({success: false, error: {message: "wrong refresh token"}});
+        res.status(400).send({ success: false, error: { message: "wrong refresh token" } });
         return;
     }
 
     try {
         await authService.removeJWTRefresh(refreshToken);
     } catch (e) {
+        console.warn(e);
         const err = e as ServiceError;
-        res.status(httpStatusCodes[err.reason] || 400).send({success: false, error: {message: err.message}});
+        res.status(httpStatusCodes[err.reason] || 400).send({ success: false, error: { message: err.message } });
         return;
     }
 
     res.clearCookie("refreshToken");
-    res.status(200).send({success: true});
+    res.status(200).send({ success: true });
 }
 
 export const refresh = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;
     if (typeof(refreshToken) != "string") {
-        res.status(400).send({success: false, error: {message: "wrong refresh token"}});
+        res.status(400).send({ success: false, error: { message: "wrong refresh token" } });
         return;
     }
        
@@ -103,12 +106,13 @@ export const refresh = async (req: Request, res: Response) => {
     try {
         accessToken = await authService.generateJWTAccess(refreshToken);
     } catch (e) {
+        console.warn(e);
         const err = e as ServiceError;
-        res.status(httpStatusCodes[err.reason] || 400).send({success: false, error: {message: err.message}});
+        res.status(httpStatusCodes[err.reason] || 400).send({ success: false, error: { message: err.message } });
         return;
     }
     
-    res.status(201).send({success: true, accessToken});
+    res.status(201).send({ success: true, result: { accessToken } });
 
     return;
 }

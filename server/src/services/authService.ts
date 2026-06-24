@@ -1,10 +1,10 @@
-import { config } from "../util/config";
+import { config } from "../def/config";
 import * as userService from "./userService";
 import * as jwt from "jsonwebtoken";
 import { db } from "../util/db";
 import { Prisma } from "../generated/prisma/client";
 import { randomString } from "../util/random";
-import { define } from "../define";
+import { define } from "../def/define";
 import { ServiceError } from "../util/serviceError";
 import * as types from "../types/jwt";
 import * as argon2 from "argon2";

@@ -1,5 +1,5 @@
 import * as argon2 from "argon2";
-import { define } from "../define";
+import { define } from "../def/define";
 import { db } from "../util/db";
 import { randomString } from "../util/random";
 import { ServiceError } from "../util/serviceError";
