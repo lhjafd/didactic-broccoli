@@ -5,6 +5,7 @@ import { input } from "../../types/input";
 import { validate } from "../../middleware/vaildateZod";
 import { ServiceError } from "../../util/serviceError";
 import { httpStatusCodes } from "../../util/httpStatus";
+import { db } from "../../util/db";
 
 export const register = jsonHandler(validate(input.RegisterSchema, 
 async (req: Request, res: Response) => {
@@ -16,9 +17,14 @@ async (req: Request, res: Response) => {
         if (!requestedIP)
             throw new ServiceError("InternalServiceError", "cannot get ip address. ");
 
-        const userId = await authService.register(username, nickname, password);
-        const [refreshToken, _] = await authService.generateJWTRefresh(userId, requestedIP);
-        const accessToken = await authService.generateJWTAccess(refreshToken);
+        let userId, refreshToken, accessToken;
+        let _;
+
+        db.$transaction(async (trx) => {
+            userId = await authService.register(username, nickname, password, trx);
+            [refreshToken, _] = await authService.generateJWTRefresh(userId, requestedIP, trx);
+            accessToken = await authService.generateJWTAccess(refreshToken);
+        });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,

@@ -96,8 +96,8 @@ export async function generateJWTAccess(refreshToken: string): Promise<string> {
     return accessToken;
 }
 
-export async function register(username: string, nickname: string, password: string): Promise<string> {
-    return await userService.createUser(username, nickname, password);
+export async function register(username: string, nickname: string, password: string, trx?: Prisma.TransactionClient): Promise<string> {
+    return await userService.createUser(username, nickname, password, trx);
 }
 
 // returns userId
@@ -107,14 +107,14 @@ export async function login(username: string, password: string): Promise<string>
     if ( !(define.MIN_USERNAME_LENGTH <= username.length && username.length <= define.MAX_USERNAME_LENGTH) )
         throw new ServiceError("BadRequest", "wrong username length");
 
-    const userId = await userService.getUserIdFromUsername(username);
-    if (!userId)
-        throw new ServiceError("BadRequest", "wrong username");
-
     if (!/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':",./<>?\\|~`]+$/.test(password))
         throw new ServiceError("BadRequest", "wrong password");
     if ( !(define.MIN_PASSWORD_LENGTH <= password.length && password.length <= define.MAX_PASSWORD_LENGTH) )
         throw new ServiceError("BadRequest", "wrong password length");
+
+    const userId = await userService.getUserIdFromUsername(username);
+    if (!userId)
+        throw new ServiceError("BadRequest", "wrong username or password");
 
     let userinfo;
     try {
@@ -131,7 +131,7 @@ export async function login(username: string, password: string): Promise<string>
 }
 
 setInterval(async () => {
-  await db.refreshToken.deleteMany({
-    where: { expire_at: { lt: new Date() } }
-  });
+    await db.refreshToken.deleteMany({
+        where: { expire_at: { lt: new Date() } }
+    });
 }, 24 * 60 * 60 * 1000); // 1d

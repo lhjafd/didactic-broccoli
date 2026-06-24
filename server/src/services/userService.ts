@@ -100,5 +100,5 @@ export async function createUser(username: string, nickname: string, password: s
         return randomUserId;
     }
 
-    throw new ServiceError("InternalServerError", "cannot register. try again later. ");
+    throw new ServiceError("InternalServerError", "cannot register. please try again later. ");
 }
