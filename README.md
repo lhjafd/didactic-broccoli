@@ -72,6 +72,8 @@ response:
 
 ## 데이터베이스 스키마
 
+[drawDB](https://www.drawdb.app/editor?shareId=13bd66b003e340e96179d91773f3e9e6)
+
 ### 사용자 관련 테이블
 
 #### users
@@ -103,6 +105,16 @@ response:
 | removed_at | timestamp | - | - |
 | version | integer | PK, NOT NULL, DEFAULT: 1 | - |
 
+#### refresh_tokens
+
+| 컬럼명 | 타입 | 제약조건 | 관계 |
+| -------- | ------ | -------- | ----- |
+| id | char | PK, NOT NULL | - |
+| userId | char | NOT NULL | FK → users.id |
+| token | varchar | NOT NULL | - |
+| login_ip | varchar | NOT NULL | - |
+| expire_at | timestamp | NOT NULL | - |
+
 ---
 
 ### 음식 관련 테이블
@@ -112,7 +124,7 @@ response:
 | 컬럼명 | 타입 | 제약조건 | 관계 |
 | -------- | ------ | -------- | ----- |
 | id | char | PK, NOT NULL | - |
-| creator | char | NOT NULL | FK → users.id |
+| creator | char | - | FK → users.id |
 | created_at | timestamp | NOT NULL | - |
 | removed_at | timestamp | - | - |
 
@@ -144,7 +156,7 @@ response:
 | 컬럼명 | 타입 | 제약조건 | 관계 |
 | -------- | ------ | -------- | ----- |
 | id | char | PK, NOT NULL | - |
-| userId | char | NOT NULL | FK → users.id |
+| userId | char | - | FK → users.id |
 | foodId | char | NOT NULL | FK → foods.id |
 | rating | decimal | NOT NULL | - |
 | reason | text | NOT NULL | - |
@@ -162,7 +174,7 @@ response:
 | 컬럼명 | 타입 | 제약조건 | 관계 |
 | -------- | ------ | -------- | ----- |
 | id | char | PK, NOT NULL | - |
-| creator | char | NOT NULL | FK → users.id |
+| creator | char | - | FK → users.id |
 | created_at | timestamp | NOT NULL | - |
 | removed_at | timestamp | - | - |
 
@@ -204,7 +216,7 @@ response:
 | 컬럼명 | 타입 | 제약조건 | 관계 |
 | -------- | ------ | -------- | ----- |
 | id | char | PK, NOT NULL | - |
-| userId | char | NOT NULL | FK → users.id |
+| userId | char | - | FK → users.id |
 | combinationId | char | NOT NULL | FK → combinations.id |
 | rating | decimal | NOT NULL | - |
 | reason | text | NOT NULL | - |
@@ -222,7 +234,7 @@ response:
 | 컬럼명 | 타입 | 제약조건 | 관계 |
 | -------- | ------ | -------- | ----- |
 | id | char | PK, NOT NULL | - |
-| creator | char | NOT NULL | FK → users.id |
+| creator | char | - | FK → users.id |
 | created_at | timestamp | NOT NULL | - |
 | removed_at | timestamp | - | - |
 
