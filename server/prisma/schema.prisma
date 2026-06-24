@@ -71,11 +71,11 @@ model Nickname {
 
 model Food {
   id         String    @id @db.Char(15)
-  creator    String    @db.Char(20)
+  creator    String?   @db.Char(20)
   created_at DateTime
   removed_at DateTime?
 
-  user              User              @relation(fields: [creator], references: [id])
+  user              User?             @relation(fields: [creator], references: [id], onDelete: SetNull)
   food_infos        FoodInfo[]
   combination_foods CombinationFood[]
   food_tags         FoodTag[]
@@ -101,11 +101,11 @@ model FoodInfo {
 
 model Combination {
   id         String    @id @db.Char(25)
-  creator    String    @db.Char(20)
+  creator    String?   @db.Char(20)
   created_at DateTime
   removed_at DateTime?
 
-  user              User                 @relation(fields: [creator], references: [id])
+  user              User?                @relation(fields: [creator], references: [id], onDelete: SetNull)
   combination_infos CombinationInfo[]
   combination_foods CombinationFood[]
   combination_tags  CombinationTag[]
@@ -145,11 +145,11 @@ model CombinationFood {
 
 model Tag {
   id         String    @id @db.Char(30)
-  creator    String    @db.Char(20)
+  creator    String?   @db.Char(20)
   created_at DateTime
   removed_at DateTime?
 
-  user             User             @relation(fields: [creator], references: [id])
+  user             User?            @relation(fields: [creator], references: [id], onDelete: SetNull)
   tag_infos        TagInfo[]
   food_tags        FoodTag[]
   combination_tags CombinationTag[]
@@ -203,7 +203,7 @@ model CombinationTag {
 
 model CommentFood {
   id         String    @id @db.Char(40)
-  userId     String    @db.Char(20)
+  userId     String?   @db.Char(20)
   foodId     String    @db.Char(15)
   rating     Decimal   @db.Decimal(5, 3)
   reason     String    @db.Text
@@ -212,15 +212,15 @@ model CommentFood {
   removed_at DateTime?
   version    Int       @default(1)
 
-  user User @relation(fields: [userId], references: [id])
-  food Food @relation(fields: [foodId], references: [id])
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  food Food  @relation(fields: [foodId], references: [id])
 
   @@map("comments_food")
 }
 
 model CommentCombination {
   id            String    @id @db.Char(40)
-  userId        String    @db.Char(20)
+  userId        String?   @db.Char(20)
   combinationId String    @db.Char(25)
   rating        Decimal   @db.Decimal(5, 3)
   reason        String    @db.Text
@@ -229,7 +229,7 @@ model CommentCombination {
   removed_at    DateTime?
   version       Int       @default(1)
 
-  user        User        @relation(fields: [userId], references: [id])
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
   combination Combination @relation(fields: [combinationId], references: [id])
 
   @@map("comments_combination")

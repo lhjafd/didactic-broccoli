@@ -102,3 +102,9 @@ export async function createUser(username: string, nickname: string, password: s
 
     throw new ServiceError("InternalServerError", "cannot register. please try again later. ");
 }
+
+export async function removeUser(userId: string, trx?: Prisma.TransactionClient) {
+    const prisma = trx ?? db;
+
+    
+}

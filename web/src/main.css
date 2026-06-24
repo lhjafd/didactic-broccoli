@@ -116,6 +116,9 @@ html, body{
 body{
     display:flex;
     flex-direction:column;
+    font-family: Arial;
+    background:#f4f4f4;
+    text-align:center;
 }
 
 header{
